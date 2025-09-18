@@ -1,0 +1,33 @@
+import java.util.regex.Pattern;
+
+REGEX control for integer
+NON_ALNUM=Pattern.compile("[^a-zA-Z0-9]");   
+
+//if text is empty or does have number
+v.isEmpty() => string check against empty 
+
+NON_ALNUM.matcher(v,find()) => string check against number "boole
+
+
+//from Account.java 
+// Equality by unique accountNo
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account a)) return false;
+        return accountNo.equals(a.accountNo);
+    }
+    @Override public int hashCode() { return accountNo.hashCode(); }
+
+equals / hashCode niye var?
+
+Mantıksal kimlik: İki Account nesnesinin aynı hesap numarasına (accountNo) sahipse aynı hesabı temsil ettiğini söylemiş oluyoruz.
+
+Koleksiyonlarda düzgün çalışma: HashSet, HashMap vb. yapılar, eşitlik ve hashCode’a bakar.
+Bu sayede aynı accountNo ile çift kayıt olmaz, doğru şekilde bulunur.
+
+Güvenli çünkü immutable: accountNo final; değişmeyeceği için equals/hashCode tutarlı kalır.
+
+Kısacası: withdraw iş kuralını uygular (pozitif tutar, yeterli bakiye), 
+equals/hashCode ise “hesap kimliği = accountNo” diyerek koleksiyon/karşılaştırma 
+davranışını doğru yapar. İhtiyacın yoksa equals/hashCode’u eklemeyebilirsin; 
+ama çoğu projede “kimlik alanına göre eşitlik” faydalıdır.
