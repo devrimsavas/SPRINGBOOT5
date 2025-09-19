@@ -4,15 +4,19 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 import java.util.Objects;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
 
 public class Account {
     private static final Pattern ACCOUNT_NO_PATTERN=Pattern.compile("\\d{8}");
 
     private String accountNo;
     private LocalDateTime accountOpeningDate;
-    private BigDecimal balance;
-    
+    private BigDecimal balance;    
     private Client client;
+    private  final List<Transaction> transactions=new ArrayList<>();
 
     public Account(Client client,String accountNo) {
         this.accountOpeningDate=LocalDateTime.now();
@@ -27,12 +31,14 @@ public class Account {
     public LocalDateTime getAccountOpeningDate() {return accountOpeningDate;}
     public BigDecimal getBalance() {return balance;}
     public Client getClient() {return client;}
+    public List<Transaction> getTransactions() {return Collections.unmodifiableList(transactions); }
 
     // Mutations via intent-only methods
     public void deposit(BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("Amount must be > 0");
         balance = balance.add(amount);
+        transactions.add(new Transaction(this,Transaction.Type.DEPOSIT,amount,balance));
     }
 
     public void withdraw(BigDecimal amount) {
